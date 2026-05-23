@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project_jikan_api/screens/favorites_screen.dart';
 import '../models/anime_model.dart';
 import '../services/api_service.dart';
 import 'details_screen.dart';
+import 'favorites_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,6 +27,17 @@ class _HomeScreenState extends State<HomeScreen>{
         title: const Text('Top Anime'),
         backgroundColor: Colors.blueAccent,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FavoritesScreen()),
+              );
+            },
+          )
+        ],
       ),
       body: FutureBuilder<List<Anime>>(
         future: _futureAnime,

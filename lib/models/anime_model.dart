@@ -8,7 +8,7 @@ class Anime{
   factory Anime.fromJson(Map<String, dynamic> json){
     return Anime(
       id: json['mal_id'] ?? 0,
-      title: json['title'] ?? 'Brak tytułu',
+      title: json['title'] ?? 'No title',
       imageUrl: json['images']?['jpg']?['image_url'] ?? '',
     );
   }

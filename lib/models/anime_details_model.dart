@@ -18,9 +18,9 @@ class AnimeDetails {
   factory AnimeDetails.fromJson(Map<String, dynamic> json) {
     return AnimeDetails(
       id: json['mal_id'] ?? 0,
-      title: json['title'] ?? 'Brak tytułu',
+      title: json['title'] ?? 'No title',
       imageUrl: json['images']?['jpg']?['large_image_url'] ?? '',
-      synopsis: json['synopsis'] ?? 'Brak opisu.',
+      synopsis: json['synopsis'] ?? 'No synopsis available.',
       score: (json['score'] ?? 0).toDouble(),
       episodes: json['episodes'] ?? 0,
     );

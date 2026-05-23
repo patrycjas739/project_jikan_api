@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:project_jikan_api/models/anime_model.dart';
 import '../models/anime_details_model.dart';
 import '../services/api_service.dart';
@@ -19,13 +20,29 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   late Future<AnimeDetails> _futureAnimeDetails;
+  late Box _favoritesBox;
+  bool _isFavorite = false;
 
   @override
   void initState() {
     super.initState();
     _futureAnimeDetails = ApiService().fetchAnimeDetails(widget.animeId);
+
+    _favoritesBox = Hive.box('favoritesBox');
+    _isFavorite = _favoritesBox.containsKey(widget.animeId);
   }
 
+  void _toggleFavorite(){
+    if (_isFavorite) {
+      _favoritesBox.delete(widget.animeId);
+    } else {
+      _favoritesBox.put(widget.animeId, widget.animeTitle);
+    }
+
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+  }
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -33,6 +50,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
         title: Text(widget.animeTitle),
         backgroundColor: Colors.redAccent,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border),
+            onPressed: _toggleFavorite,
+          ),
+        ],
       ),
       body: FutureBuilder<AnimeDetails>(
        future: _futureAnimeDetails,
