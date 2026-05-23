@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen>{
             );
           }
           else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('Brak anime do wyświetlenia.'));
+            return const Center(child: Text('No anime to display.'));
           }
 
           final animeList = snapshot.data!;
@@ -68,7 +68,10 @@ class _HomeScreenState extends State<HomeScreen>{
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DetailsScreen(),
+                        builder: (context) => DetailsScreen(
+                          animeId: anime.id,
+                          animeTitle: anime.title,
+                        ),
                       ),
                     );
                   },
