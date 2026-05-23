@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen>{
                   MaterialPageRoute(builder: (context) => const FavoritesScreen()),
               );
             },
-          )
+          ),
         ],
       ),
       body: FutureBuilder<List<Anime>>(
@@ -69,11 +69,14 @@ class _HomeScreenState extends State<HomeScreen>{
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: ListTile(
-                  leading: Image.network(
+                  leading: Hero(
+                    tag: 'anime-pic-${anime.id}',
+                    child: Image.network(
                     anime.imageUrl,
                     width: 50,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image),
+                  ),
                   ),
                   title: Text(anime.title),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
