@@ -1,17 +1,13 @@
-# project_jikan_api
-
-Projekt zaliczeniowy.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Jikan Anime App
+Projekt zaliczeniowy - aplikacja mobilna.
+## Funkcjonalności
+* **Pobieranie danych z REST API:** Aplikacja łączy się z Jikan API (v4):
+1. Pobranie ogólnej listy top anime.
+2. Pobranie szczegółów wybranego tytułu z przekazaniem parametru ID.
+* **Trzy ekrany:** 
+1. Ekran główny z listą.
+2. Ekran szczegółów.
+3. Ekran ulubionych.
+* **Tryb Offline:** Wykorzystanie lokalnej bazy danych HIVE do zapisywania ulubionych anime.
+* **Obsługa stanów:** Wskaźniki ładowania oraz czytelna obsługa błędów.
+* **Efekty wizualne:** Przejścia plakatów poprzez Hero Animation oraz tryb pełnoekranowy InteractiveViewer.
