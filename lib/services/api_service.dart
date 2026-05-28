@@ -8,7 +8,8 @@ class ApiService {
 
   Future<List<Anime>> fetchTopAnime() async {
     try{
-      final response = await http.get(Uri.parse('$baseUrl/top/anime'));
+      final response = await http.get(Uri.parse('$baseUrl/top/anime'))
+      .timeout(const Duration(seconds: 5));
       if (response.statusCode == 200){
         final data = json.decode(response.body);
         final List animeList = data['data'];
@@ -23,7 +24,8 @@ class ApiService {
 
   Future<AnimeDetails> fetchAnimeDetails(int id) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/anime/$id/full'));
+      final response = await http.get(Uri.parse('$baseUrl/anime/$id/full'))
+      .timeout(const Duration(seconds:5));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         return AnimeDetails.fromJson(data['data']);

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
-import 'package:project_jikan_api/models/anime_model.dart';
 import '../models/anime_details_model.dart';
 import '../services/api_service.dart';
 
@@ -35,7 +34,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
     if (_isFavorite) {
       _favoritesBox.delete(widget.animeId);
     } else {
-      _favoritesBox.put(widget.animeId, widget.animeTitle);
+      final now = DateTime.now();
+      final dateString = "${now.day.toString().padLeft(2, '0')}.${now.month.toString().padLeft(2,'0')}.${now.year}";
+
+      _favoritesBox.put(widget.animeId, {
+        'title': widget.animeTitle,
+        'date': dateString,
+      });
     }
 
     setState(() {
@@ -64,9 +69,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(
-              child: Text(
-                '${snapshot.error}',
-                style: const TextStyle(color: Colors.red),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.wifi_off, size:80, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text('No internet connection', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 8),
+                  Text('Unable to download details offline.', style: TextStyle(fontSize: 16)),
+                ],
               ),
             );
           } else if (!snapshot.hasData) {

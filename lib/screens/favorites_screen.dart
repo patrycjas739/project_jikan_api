@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 
-class FavoritesScreen extends StatelessWidget{
+class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
 
   @override
-  Widget build(BuildContext context){
-    final box = Hive.box('favoritesBox');
+  State<FavoritesScreen> createState() => _FavoriteScreenState();
+}
+class _FavoriteScreenState extends State<FavoritesScreen> {
+  late Box _favoritesBox;
 
-    final favorites = box.toMap();
+  @override
+  void initState() {
+    super.initState();
+    _favoritesBox = Hive.box('favoritesBox');
+  }
+
+  void _removeFavorite(dynamic key) {
+    _favoritesBox.delete(key);
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context){
+    final Map<dynamic, dynamic> favorites = _favoritesBox.toMap();
 
     return Scaffold(
       appBar: AppBar(
@@ -22,13 +37,27 @@ class FavoritesScreen extends StatelessWidget{
           itemCount: favorites.length,
           itemBuilder: (context, index) {
             final key = favorites.keys.elementAt(index);
-            final title = favorites[key];
+            final item = favorites[key];
 
+            String title = 'Unknown Title';
+            String dateAdded = 'Unknown Date';
+
+            if (item is String){
+              title = item;
+              dateAdded = 'Added earlier';
+            } else if (item is Map) {
+              title = item['title'] ?? 'Unknown Title';
+              dateAdded = item['date'] ?? 'Unknown Date';
+            }
             return Card(
               margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: ListTile(
-                title: Text(title),
-                trailing: const Icon(Icons.offline_pin, color: Colors.green),
+                title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: Text('Added: $dateAdded', style: const TextStyle(color: Colors.grey)),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete_outline, color: Colors.red),
+                  onPressed: () => _removeFavorite(key),
+                ),
               ),
             );
           },

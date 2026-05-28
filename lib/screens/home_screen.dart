@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:project_jikan_api/screens/favorites_screen.dart';
 import '../models/anime_model.dart';
 import '../services/api_service.dart';
@@ -22,6 +23,8 @@ class _HomeScreenState extends State<HomeScreen>{
   }
   @override
   Widget build(BuildContext context){
+    final favoritesBox = Hive.box('favoritesBox');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Top Anime'),
@@ -34,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen>{
               Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const FavoritesScreen()),
-              );
+              ).then((_) => setState(() {}));
             },
           ),
         ],
@@ -49,10 +52,15 @@ class _HomeScreenState extends State<HomeScreen>{
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  '${snapshot.error}',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.red, fontSize: 16),
+                child: Column(
+                 mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.wifi_off, size:80, color: Colors.grey),
+                    const SizedBox(height: 16),
+                    const Text("No internet connection", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    const Text('Check your internet connection and try again.', textAlign: TextAlign.center, style:TextStyle(color: Colors.grey)),
+                  ],
                 ),
               ),
             );
@@ -66,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen>{
             itemCount: animeList.length,
             itemBuilder: (context, index) {
               final anime = animeList[index];
+              final isFavorite = favoritesBox.containsKey(anime.id);
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: ListTile(
@@ -79,7 +88,14 @@ class _HomeScreenState extends State<HomeScreen>{
                   ),
                   ),
                   title: Text(anime.title),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  trailing: Row(
+                   mainAxisSize: MainAxisSize.min,
+                   children: [
+                     if (isFavorite) const Icon(Icons.favorite, color: Colors.red, size:20),
+                     const SizedBox(width:8),
+                     const Icon(Icons.arrow_forward_ios, size: 16),
+                   ],
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -89,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen>{
                           animeTitle: anime.title,
                         ),
                       ),
-                    );
+                    ).then((_) => setState(() {}));
                   },
                 ),
               );
