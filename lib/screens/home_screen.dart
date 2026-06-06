@@ -58,6 +58,17 @@ class _HomeScreenState extends State<HomeScreen>{
                     const Text("No internet connection", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
                     const Text('Check your internet connection and try again.', textAlign: TextAlign.center, style:TextStyle(color: Colors.grey)),
+
+                    const SizedBox(height: 24),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          _futureAnime = ApiService().fetchTopAnime();
+                        });
+                      },
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Try Again'),
+                    ),
                   ],
                 ),
               ),
@@ -68,7 +79,13 @@ class _HomeScreenState extends State<HomeScreen>{
           }
 
           final animeList = snapshot.data!;
-          return ListView.builder(
+          return RefreshIndicator(
+              onRefresh: () async {
+                setState(() {
+                  _futureAnime = ApiService().fetchTopAnime();
+                });
+              },
+          child: ListView.builder(
             itemCount: animeList.length,
             itemBuilder: (context, index) {
               final anime = animeList[index];
@@ -108,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen>{
                 ),
               );
             },
+          ),
           );
         },
       ),
