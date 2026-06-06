@@ -28,8 +28,6 @@ class _FavoriteScreenState extends State<FavoritesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favorite Anime (Offline)'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
       ),
       body: favorites.isEmpty
         ? const Center(child: Text('No favorites yet.', style: TextStyle(fontSize: 18)))

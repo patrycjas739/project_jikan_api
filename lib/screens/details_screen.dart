@@ -53,8 +53,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.animeTitle),
-        backgroundColor: Colors.redAccent,
-        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border),
@@ -99,8 +97,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           builder: (context) => Scaffold(
                             backgroundColor: Colors.black,
                             appBar: AppBar(
-                              backgroundColor: Colors.redAccent,
-                              foregroundColor: Colors.white,
                               title: Text(details.title),
                             ),
                             body: Center(

@@ -28,8 +28,6 @@ class _HomeScreenState extends State<HomeScreen>{
     return Scaffold(
       appBar: AppBar(
         title: const Text('Top Anime'),
-        backgroundColor: Colors.blueAccent,
-        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: const Icon(Icons.favorite),
